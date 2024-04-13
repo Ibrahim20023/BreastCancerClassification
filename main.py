@@ -6,6 +6,7 @@ import pandas as pd
 import numpy as np
 from streamlit_option_menu import option_menu
 import plotly.express as px
+import sklearn
 
 
 def get_clean_data():
