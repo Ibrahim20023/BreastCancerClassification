@@ -136,9 +136,19 @@ def add_menu():
      additional_comments = st.text_area("Additional Comments")
 
     # Add a button to submit feedback
+<<<<<<< HEAD
      if st.button("Submit Feedback"):
         # Initialize session state if not already initialized
         init_session_state()
+=======
+    if st.button("Submit Feedback"):
+        # Write the feedback to a text file
+        with open("feedback.txt", "a") as file:
+            file.write(f"Rating: {rating} stars\n")
+            if additional_comments:
+                file.write(f"Additional Comments: {additional_comments}\n")
+            file.write("\n")
+>>>>>>> e9d5cbb9f840b3dc801449f0b1f04457c194dbd1
         
         # Append the new feedback to the DataFrame in session state
         feedback_entry = pd.DataFrame({'Rating': [rating], 'Additional Comments': [additional_comments]})
