@@ -133,7 +133,7 @@ def add_menu():
     # Add a button to submit feedback
     if st.button("Submit Feedback"):
         # Write the feedback to a text file
-        with open("../data/feedback.txt", "a") as file:
+        with open("feedback.txt", "a") as file:
             file.write(f"Rating: {rating} stars\n")
             if additional_comments:
                 file.write(f"Additional Comments: {additional_comments}\n")
