@@ -1,9 +1,0 @@
-Rating: 3 stars
-Additional Comments: something
-
-Rating: 4 stars
-Additional Comments: something else
-
-Rating: 1 stars
-Additional Comments: this is new
-
