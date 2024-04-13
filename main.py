@@ -84,7 +84,7 @@ def get_scaled_values(input_dict):
   
   return scaled_dict
   
-
+  
 def add_predictions(input_data):
   model = pickle.load(open("model.pkl", "rb"))
   scaler = pickle.load(open("scaler.pkl", "rb"))
