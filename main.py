@@ -16,6 +16,9 @@ def get_clean_data():
   
   return data
 
+
+model = pickle.load(open("model.pkl", "rb"))
+
   
 
 def add_labels():
@@ -85,7 +88,6 @@ def get_scaled_values(input_dict):
   
 
 def add_predictions(input_data):
-  model = pickle.load(open("model.pkl", "rb"))
   scaler = pickle.load(open("scaler.pkl", "rb"))
   
   input_array = np.array(list(input_data.values())).reshape(1, -1)
