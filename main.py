@@ -118,28 +118,36 @@ def add_menu():
     options=["Home", "Dataset","Classify tumor", "Contact Us"],
     icons=["house", "database", "book", "envelope"],
   )
-   def feedback_gathering():
-    st.title("Feedback Gathering")
-    st.write("Please rate your experience with our application:")
+   
+  def init_session_state():
+    if 'feedback_df' not in st.session_state:
+      st.session_state.feedback_df = pd.DataFrame(columns=['Rating', 'Additional Comments'])
+
+  def feedback_gathering():
+     st.title("Feedback Gathering")
+     st.write("Please rate your experience with our application:")
 
     # Create a slider with star symbols for rating
-    rating = st.slider(label='', min_value=1, max_value=5, step=1, format='%d ★')
+     rating = st.slider(label='', min_value=1, max_value=5, step=1, format='%d ★')
 
-    st.write(f"You rated your experience as: {rating} stars")
+     st.write(f"You rated your experience as: {rating} stars")
 
     # Optionally, provide a text area for additional comments
-    additional_comments = st.text_area("Additional Comments")
+     additional_comments = st.text_area("Additional Comments")
 
     # Add a button to submit feedback
-    if st.button("Submit Feedback"):
-        # Write the feedback to a text file
-        with open("feedback.txt", "a") as file:
-            file.write(f"Rating: {rating} stars\n")
-            if additional_comments:
-                file.write(f"Additional Comments: {additional_comments}\n")
-            file.write("\n")
+     if st.button("Submit Feedback"):
+        # Initialize session state if not already initialized
+        init_session_state()
         
-        st.success("Thank you for your feedback!")
+        # Append the new feedback to the DataFrame in session state
+        feedback_entry = pd.DataFrame({'Rating': [rating], 'Additional Comments': [additional_comments]})
+        st.session_state.feedback_df = pd.concat([st.session_state.feedback_df, feedback_entry], ignore_index=True)
+        
+        # Save feedback DataFrame to CSV file
+        st.session_state.feedback_df.to_csv("feedback.csv", index=False)
+        
+        st.success("Thank you for your feedback! Your feedback has been saved.")
 
   if selected == "Home":
     with st.container():
@@ -179,7 +187,10 @@ def add_menu():
     st.write("If you have any questions, feedback, or need assistance, please feel free to reach out to us. You can contact us through the following:") 
     st.write("ibrahimzaim2020@gmail.com")
     st.write("Tamouchekaoutar@gmail.com")
+    init_session_state()
     feedback_gathering()
+    
+    data = pd.read_csv('feedback.csv')
 def main():
   st.set_page_config(
     page_title="Breast Cancer Classifier",
