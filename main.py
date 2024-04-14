@@ -136,16 +136,14 @@ def add_menu():
 
     # Add a button to submit feedback
     if st.button("Submit Feedback"):
-        # Initialize session state if not already initialized
-        init_session_state()
-        # Append the new feedback to the DataFrame in session state
-        feedback_entry = pd.DataFrame({'Rating': [rating], 'Additional Comments': [additional_comments]})
-        st.session_state.feedback_df = pd.concat([st.session_state.feedback_df, feedback_entry], ignore_index=True)
-        
-        # Save feedback DataFrame to CSV file
-        st.session_state.feedback_df.to_csv("feedback.csv", index=False)
-        
-        st.success("Thank you for your feedback! Your feedback has been saved.")
+        # Send feedback data to JSON Server
+        feedback_data = {'Rating': rating, 'Additional Comments': additional_comments}
+        response = requests.post('http://localhost:3000/feedbacks', json=feedback_data)
+
+        if response.status_code == 201:
+            st.success("Thank you for your feedback! Your feedback has been saved.")
+        else:
+            st.error("Failed to save feedback. Please try again later.")
 
   if selected == "Home":
     with st.container():
@@ -185,7 +183,6 @@ def add_menu():
     st.write("If you have any questions, feedback, or need assistance, please feel free to reach out to us. You can contact us through the following:") 
     st.write("ibrahimzaim2020@gmail.com")
     st.write("Tamouchekaoutar@gmail.com")
-    init_session_state()
     feedback_gathering()
     
     data = pd.read_csv('feedback.csv')
